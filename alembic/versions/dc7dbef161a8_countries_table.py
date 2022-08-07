@@ -30,11 +30,11 @@ def upgrade() -> None:
     op.bulk_insert(
         countries_table,
         [
-            {'name':'Chile'},
-            {'name': 'Mexico'},
-            {'name': 'Colombia'},
-            {'name': 'Peru'},
-        ]
+            {"name": "Chile"},
+            {"name": "Mexico"},
+            {"name": "Colombia"},
+            {"name": "Peru"},
+        ],
     )
 
 

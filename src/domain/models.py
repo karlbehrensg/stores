@@ -35,7 +35,7 @@ class Store(Base):
     active = Column(Boolean, default=True, server_default="true")
     created_at = Column(DateTime, default=func.now(), server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
-    country = relationship("Country", back_populates="stores")
+    country = relationship("Country", backref="stores")
 
 
 class Rol(Base):
@@ -52,5 +52,5 @@ class Worker(Base):
     user_id = Column(Integer, primary_key=True)
     store_id = Column(Integer, ForeignKey("stores.id"), primary_key=True)
     rol_id = Column(Integer, ForeignKey("roles.id"), nullable=False)
-    store = relationship("Store", back_populates="workers")
-    rol = relationship("Rol", back_populates="workers")
+    store = relationship("Store", backref="workers")
+    rol = relationship("Rol", backref="workers")

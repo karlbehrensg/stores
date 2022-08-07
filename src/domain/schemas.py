@@ -1,10 +1,11 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
+from typing import List
 
 
-class UserBase(BaseModel):
-    email: EmailStr
+class CountryData(BaseModel):
+    id: int
+    name: str
 
 
-class UserCreate(UserBase):
-    password: str
-    password2: str
+class CountryList(BaseModel):
+    countries: List[CountryData]

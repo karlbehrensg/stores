@@ -30,11 +30,11 @@ def upgrade() -> None:
     op.bulk_insert(
         roles_table,
         [
-            {'name':'Admin'},
-            {'name': 'Manager'},
-            {'name': 'Accountant'},
-            {'name': 'Seller'},
-        ]
+            {"name": "Admin"},
+            {"name": "Manager"},
+            {"name": "Accountant"},
+            {"name": "Seller"},
+        ],
     )
 
 
