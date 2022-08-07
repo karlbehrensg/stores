@@ -12,9 +12,9 @@ router = APIRouter(
 )
 
 
-@router.get("", status_code=200)
+@router.get("", status_code=200, response_model=schemas.CountriesList)
 async def get_countries(db: Session = Depends(get_db)):
     country_handler = CountriesHandler(db)
     countries = await country_handler.get_countries()
-    response = schemas.CountryList(countries=countries)
+    response = schemas.CountriesList(countries=countries)
     return response

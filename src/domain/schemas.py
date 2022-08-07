@@ -7,5 +7,14 @@ class CountryData(BaseModel):
     name: str
 
 
-class CountryList(BaseModel):
+class CountriesList(BaseModel):
     countries: List[CountryData]
+
+
+class RolData(BaseModel):
+    id: int
+    name: str
+
+
+class RolesList(BaseModel):
+    roles: List[RolData]
