@@ -1,0 +1,7 @@
+__pycache__/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+.DS_Store
+test.db
