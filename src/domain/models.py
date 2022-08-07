@@ -36,3 +36,11 @@ class Store(Base):
     created_at = Column(DateTime, default=func.now(), server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
     country = relationship("Country", back_populates="stores")
+
+
+class Rol(Base):
+    __tablename__ = "roles"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    active = Column(Boolean, default=True, server_default="true")
