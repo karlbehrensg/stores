@@ -22,14 +22,14 @@ def upgrade() -> None:
         "stores",
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("country_id", sa.Integer(), nullable=False),
-        sa.Column("tax_id", sa.String(), nullable=True),
+        sa.Column("tax_id", sa.String(), nullable=True, unique=True),
         sa.Column("name", sa.String(), nullable=False),
         sa.Column("legal_name", sa.String(), nullable=False),
         sa.Column("address", sa.String(), nullable=False),
         sa.Column("zip_code", sa.String(), nullable=False),
         sa.Column("email", sa.String(), nullable=False),
         sa.Column("phone", sa.String(), nullable=True),
-        sa.Column("active", sa.Boolean(), server_default="true", nullable=True),
+        sa.Column("active", sa.Boolean(), server_default="false", nullable=True),
         sa.Column(
             "created_at", sa.DateTime(), server_default=sa.text("now()"), nullable=True
         ),

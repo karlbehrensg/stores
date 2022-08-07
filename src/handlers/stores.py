@@ -1,0 +1,34 @@
+from fastapi import HTTPException, status
+from psycopg2.errors import UniqueViolation
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
+
+from src.domain import schemas
+from src.domain.models import Store
+
+
+class StoresHandler:
+    def __init__(self, db: Session) -> None:
+        self.db = db
+
+    async def create_store(self, store: schemas.StoreCreate):
+        try:
+            new_store = Store(
+                country_id=store.country_id,
+                tax_id=store.tax_id,
+                name=store.name,
+                legal_name=store.legal_name,
+                address=store.address,
+                zip_code=store.zip_code,
+                email=store.email,
+                phone=store.phone,
+            )
+            self.db.add(new_store)
+            self.db.commit()
+            self.db.refresh(new_store)
+            return new_store
+        except (IntegrityError, UniqueViolation):
+            raise HTTPException(
+                status_code=400,
+                detail="An error occurred: the store already exists or the country is not valid",
+            )
