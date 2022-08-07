@@ -44,3 +44,13 @@ class Rol(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     active = Column(Boolean, default=True, server_default="true")
+
+
+class Worker(Base):
+    __tablename__ = "workers"
+
+    user_id = Column(Integer, primary_key=True)
+    store_id = Column(Integer, ForeignKey("stores.id"), primary_key=True)
+    rol_id = Column(Integer, ForeignKey("roles.id"), nullable=False)
+    store = relationship("Store", back_populates="workers")
+    rol = relationship("Rol", back_populates="workers")

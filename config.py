@@ -5,6 +5,7 @@ from pydantic import BaseSettings
 
 ####### Settings #######
 
+
 class Settings(BaseSettings):
     secret: str = os.getenv("SECRET")
     db_dialect: str = os.getenv("DB_DIALECT")
@@ -13,6 +14,7 @@ class Settings(BaseSettings):
     db_name: str = os.getenv("DB_NAME")
     db_user: str = os.getenv("DB_USER")
     db_password: str = os.getenv("DB_PASSWORD")
+
     class Config:
         env_file = ".env"
 
@@ -20,7 +22,7 @@ class Settings(BaseSettings):
 @lru_cache()
 def get_settings() -> Settings:
     return Settings()
-    
+
 
 ####### Database #######
 
