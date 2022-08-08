@@ -1,0 +1,15 @@
+__pycache__/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+.DS_Store
+test.db
+*.git*
+tests/
+.coveragerc
+Dockerfile
+.dockerignore
+README.md
+test.requirements.txt
+.env

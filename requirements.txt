@@ -1,6 +1,6 @@
-fastapi
-uvicorn[standard]
-pydantic[email]
-SQLAlchemy
-alembic
-psycopg2-binary
+fastapi==0.79.0
+uvicorn[standard]==0.18.2
+pydantic[email]==1.9.1
+SQLAlchemy==1.4.39
+alembic==1.8.1
+psycopg2-binary==2.9.3
