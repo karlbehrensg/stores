@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  stores:
+    container_name: stores
+    build: .
+    command: > 
+      sh -c "sleep 5 && 
+             alembic upgrade head && 
+             uvicorn src.entrypoints.main:app --host 0.0.0.0 --port 80"
+    ports:
+      - "323:80"
+    depends_on:
+      - stores_db
+    environment:
+      - DB_DIALECT=${DB_DIALECT}
+      - DB_HOST=stores_db
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    networks:
+      - zeleri_network
+  
+  stores_db:
+    container_name: stores_db
+    image: postgres:latest
+    volumes:
+      - stores_volume:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - zeleri_network
+
+networks:
+  zeleri_network:
+    external: true
+
+volumes:
+  stores_volume:
