@@ -15,7 +15,9 @@ router = APIRouter(
 
 
 @router.post("", status_code=200, response_model=schemas.WorkerData)
-async def create_worker(new_worker: schemas.WorkerCreate, db: Session = Depends(get_db)):
+async def create_worker(
+    new_worker: schemas.WorkerCreate, db: Session = Depends(get_db)
+):
     store_handler = StoresHandler(db)
     store = await store_handler.get_store(new_worker.store_id)
     if not store.active:
@@ -37,7 +39,9 @@ async def create_worker(new_worker: schemas.WorkerCreate, db: Session = Depends(
 
 
 @router.get("", status_code=200, response_model=schemas.WorkersList)
-async def get_workers(page: int = 1, per_page: int = 10, store_id: int = 1, db: Session = Depends(get_db)):
+async def get_workers(
+    page: int = 1, per_page: int = 10, store_id: int = 1, db: Session = Depends(get_db)
+):
     worker_handler = WorkersHandler(db)
     workers = await worker_handler.get_workers(page, per_page, store_id)
     workers_list = [
@@ -51,9 +55,7 @@ async def get_workers(page: int = 1, per_page: int = 10, store_id: int = 1, db: 
     ]
     try:
         response = schemas.WorkersList(
-            store_id = store_id,
-            store_name=workers[0].store.name,
-            workers=workers_list
+            store_id=store_id, store_name=workers[0].store.name, workers=workers_list
         )
     except IndexError:
         raise HTTPException(
@@ -79,7 +81,12 @@ async def get_worker(store_id: int, user_id: int, db: Session = Depends(get_db))
 
 
 @router.put("/{store_id}/{user_id}", status_code=200, response_model=schemas.WorkerData)
-async def update_worker(store_id: int, user_id: int, worker: schemas.WorkerUpdate, db: Session = Depends(get_db)):
+async def update_worker(
+    store_id: int,
+    user_id: int,
+    worker: schemas.WorkerUpdate,
+    db: Session = Depends(get_db),
+):
     worker_handler = WorkersHandler(db)
     worker = await worker_handler.update_worker(store_id, user_id, worker)
     response = schemas.WorkerData(
@@ -93,7 +100,9 @@ async def update_worker(store_id: int, user_id: int, worker: schemas.WorkerUpdat
     return response
 
 
-@router.delete("/{store_id}/{user_id}", status_code=200, response_model=schemas.WorkerData)
+@router.delete(
+    "/{store_id}/{user_id}", status_code=200, response_model=schemas.WorkerData
+)
 async def deactivate_worker(store_id: int, user_id: int, db: Session = Depends(get_db)):
     worker_handler = WorkersHandler(db)
     worker = await worker_handler.deactivate_worker(store_id, user_id)
@@ -108,7 +117,9 @@ async def deactivate_worker(store_id: int, user_id: int, db: Session = Depends(g
     return response
 
 
-@router.post("/{store_id}/{user_id}/activate", status_code=200, response_model=schemas.WorkerData)
+@router.post(
+    "/{store_id}/{user_id}/activate", status_code=200, response_model=schemas.WorkerData
+)
 async def activate_worker(store_id: int, user_id: int, db: Session = Depends(get_db)):
     worker_handler = WorkersHandler(db)
     worker = await worker_handler.activate_worker(store_id, user_id)
@@ -126,5 +137,5 @@ async def activate_worker(store_id: int, user_id: int, db: Session = Depends(get
 @router.delete("/{store_id}/{user_id}/delete", status_code=200)
 async def delete_worker(store_id: int, user_id: int, db: Session = Depends(get_db)):
     worker_handler = WorkersHandler(db)
-    worker = await worker_handler.delete_worker(store_id, user_id)
+    await worker_handler.delete_worker(store_id, user_id)
     return None

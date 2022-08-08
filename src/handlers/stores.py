@@ -74,7 +74,7 @@ class StoresHandler:
         self.db.commit()
         self.db.refresh(store)
         return store
-    
+
     async def activate_store(self, store_id: int):
         store = self.db.query(Store).get(store_id)
         if store is None:
