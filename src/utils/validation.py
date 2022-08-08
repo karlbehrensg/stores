@@ -17,7 +17,7 @@ async def validate_rol(
 
     worker = await worker_handler.get_worker(store_id, user_id)
 
-    if worker and worker.rol_id in accepted_roles_list:
+    if worker and worker.rol_id in accepted_roles_list and worker.active:
         return True
 
     raise HTTPException(

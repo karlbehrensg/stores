@@ -5,7 +5,7 @@ from src.adapters.orm import get_db
 from src.handlers.stores import StoresHandler
 from src.handlers.workers import WorkersHandler
 from src.domain import schemas
-from src.utils.validatetion import validate_rol
+from src.utils.validation import validate_rol
 
 router = APIRouter(
     prefix="/stores",
@@ -90,12 +90,16 @@ async def get_store(
     db: Session = Depends(get_db),
 ):
     worker_handler = WorkersHandler(db)
-    rol_condition = await validate_rol(
-        worker_handler=worker_handler,
-        store_id=store_id,
-        user_id=current_user_id,
-        accepted_roles_list=[1, 2],
-    ) if not superuser else superuser
+    rol_condition = (
+        await validate_rol(
+            worker_handler=worker_handler,
+            store_id=store_id,
+            user_id=current_user_id,
+            accepted_roles_list=[1, 2],
+        )
+        if not superuser
+        else superuser
+    )
 
     if rol_condition:
         store_handler = StoresHandler(db)
@@ -129,12 +133,16 @@ async def update_store(
     db: Session = Depends(get_db),
 ):
     worker_handler = WorkersHandler(db)
-    rol_condition = await validate_rol(
-        worker_handler=worker_handler,
-        store_id=store_id,
-        user_id=current_user_id,
-        accepted_roles_list=[1, 2],
-    ) if not superuser else superuser
+    rol_condition = (
+        await validate_rol(
+            worker_handler=worker_handler,
+            store_id=store_id,
+            user_id=current_user_id,
+            accepted_roles_list=[1, 2],
+        )
+        if not superuser
+        else superuser
+    )
 
     if rol_condition:
         store_handler = StoresHandler(db)
@@ -167,12 +175,16 @@ async def deactivate_store(
     db: Session = Depends(get_db),
 ):
     worker_handler = WorkersHandler(db)
-    rol_condition = await validate_rol(
-        worker_handler=worker_handler,
-        store_id=store_id,
-        user_id=current_user_id,
-        accepted_roles_list=[1],
-    ) if not superuser else superuser
+    rol_condition = (
+        await validate_rol(
+            worker_handler=worker_handler,
+            store_id=store_id,
+            user_id=current_user_id,
+            accepted_roles_list=[1],
+        )
+        if not superuser
+        else superuser
+    )
 
     if rol_condition:
         store_handler = StoresHandler(db)

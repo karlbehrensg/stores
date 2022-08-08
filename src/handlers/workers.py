@@ -56,10 +56,16 @@ class WorkersHandler:
     async def update_worker(
         self, store_id: int, user_id: int, worker: schemas.WorkerUpdate
     ):
-        worker_to_update = await self.get_worker(store_id, user_id)
-        worker_to_update.rol_id = worker.rol_id
-        self.db.commit()
-        return worker_to_update
+        try:
+            worker_to_update = await self.get_worker(store_id, user_id)
+            worker_to_update.rol_id = worker.rol_id
+            self.db.commit()
+            return worker_to_update
+        except (IntegrityError, UniqueViolation):
+            raise HTTPException(
+                status_code=400,
+                detail="The worker already exists or rol is not valid",
+            )
 
     async def deactivate_worker(self, store_id: int, user_id: int):
         worker_to_update = await self.get_worker(store_id, user_id)

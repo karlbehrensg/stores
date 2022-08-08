@@ -78,6 +78,7 @@ class WorkerData(WorkerBasicData):
 class WorkersList(BaseModel):
     store_id: int
     store_name: str
+    store_active: bool
     workers: List[WorkerBasicData]
 
 
