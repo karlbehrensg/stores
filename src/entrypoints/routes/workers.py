@@ -91,3 +91,40 @@ async def update_worker(store_id: int, user_id: int, worker: schemas.WorkerUpdat
         active=worker.active,
     )
     return response
+
+
+@router.delete("/{store_id}/{user_id}", status_code=200, response_model=schemas.WorkerData)
+async def deactivate_worker(store_id: int, user_id: int, db: Session = Depends(get_db)):
+    worker_handler = WorkersHandler(db)
+    worker = await worker_handler.deactivate_worker(store_id, user_id)
+    response = schemas.WorkerData(
+        user_id=worker.user_id,
+        store_id=worker.store_id,
+        store_name=worker.store.name,
+        rol_id=worker.rol_id,
+        rol_name=worker.rol.name,
+        active=worker.active,
+    )
+    return response
+
+
+@router.post("/{store_id}/{user_id}/activate", status_code=200, response_model=schemas.WorkerData)
+async def activate_worker(store_id: int, user_id: int, db: Session = Depends(get_db)):
+    worker_handler = WorkersHandler(db)
+    worker = await worker_handler.activate_worker(store_id, user_id)
+    response = schemas.WorkerData(
+        user_id=worker.user_id,
+        store_id=worker.store_id,
+        store_name=worker.store.name,
+        rol_id=worker.rol_id,
+        rol_name=worker.rol.name,
+        active=worker.active,
+    )
+    return response
+
+
+@router.delete("/{store_id}/{user_id}/delete", status_code=200)
+async def delete_worker(store_id: int, user_id: int, db: Session = Depends(get_db)):
+    worker_handler = WorkersHandler(db)
+    worker = await worker_handler.delete_worker(store_id, user_id)
+    return None

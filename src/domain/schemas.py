@@ -83,4 +83,3 @@ class WorkersList(BaseModel):
 
 class WorkerUpdate(BaseModel):
     rol_id: int
-    active: bool

@@ -48,6 +48,23 @@ class WorkersHandler:
     async def update_worker(self, store_id: int, user_id: int, worker: schemas.WorkerUpdate):
         worker_to_update = await self.get_worker(store_id, user_id)
         worker_to_update.rol_id = worker.rol_id
-        worker_to_update.active = worker.active
         self.db.commit()
         return worker_to_update
+
+    async def deactivate_worker(self, store_id: int, user_id: int):
+        worker_to_update = await self.get_worker(store_id, user_id)
+        worker_to_update.active = False
+        self.db.commit()
+        return worker_to_update
+
+    async def activate_worker(self, store_id: int, user_id: int):
+        worker_to_update = await self.get_worker(store_id, user_id)
+        worker_to_update.active = True
+        self.db.commit()
+        return worker_to_update
+
+    async def delete_worker(self, store_id: int, user_id: int):
+        worker_to_delete = await self.get_worker(store_id, user_id)
+        self.db.delete(worker_to_delete)
+        self.db.commit()
+        return None
