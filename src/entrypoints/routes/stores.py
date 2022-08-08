@@ -29,3 +29,26 @@ async def create_store(new_store: schemas.StoreCreate, db: Session = Depends(get
         active=store.active,
     )
     return response
+
+
+@router.get("", status_code=200, response_model=schemas.StoresList)
+async def get_stores(page: int = 1, per_page: int = 10, db: Session = Depends(get_db)):
+    store_handler = StoresHandler(db)
+    stores = await store_handler.get_stores(page, per_page)
+    stores_list = [
+        schemas.StoreData(
+            id=store.id,
+            country_id=store.country_id,
+            tax_id=store.tax_id,
+            name=store.name,
+            legal_name=store.legal_name,
+            address=store.address,
+            zip_code=store.zip_code,
+            email=store.email,
+            phone=store.phone,
+            active=store.active,
+        )
+        for store in stores
+    ]
+    response = schemas.StoresList(stores=stores_list)
+    return response

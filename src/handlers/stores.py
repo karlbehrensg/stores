@@ -32,3 +32,7 @@ class StoresHandler:
                 status_code=400,
                 detail="An error occurred: the store already exists or the country is not valid",
             )
+
+    async def get_stores(self, page: int, per_page: int):
+        stores = self.db.query(Store).offset(per_page * (page - 1)).limit(per_page).all()
+        return stores

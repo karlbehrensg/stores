@@ -42,3 +42,7 @@ class StoreData(BaseModel):
     email: EmailStr
     phone: Optional[str] = None
     active: bool = True
+
+
+class StoresList(BaseModel):
+    stores: List[StoreData]
