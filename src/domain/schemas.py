@@ -55,3 +55,15 @@ class StoreUpdate(BaseModel):
     zip_code: Optional[str]
     email: Optional[EmailStr]
     phone: Optional[str] = None
+
+
+class WorkerCreate(BaseModel):
+    user_id: int
+    store_id: int
+    rol_id: int
+
+
+class WorkerData(BaseModel):
+    user_id: int
+    store_id: int
+    rol_id: int
