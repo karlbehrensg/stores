@@ -32,3 +32,9 @@ class WorkersHandler:
                 status_code=400,
                 detail="The worker already exists or rol is not valid",
             )
+
+    async def get_workers(self, page: int, per_page: int, store_id: int):
+        workers = (
+            self.db.query(Worker).filter(Worker.store_id == store_id).offset(per_page * (page - 1)).limit(per_page).all()
+        )
+        return workers

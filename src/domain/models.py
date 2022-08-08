@@ -52,5 +52,6 @@ class Worker(Base):
     user_id = Column(Integer, primary_key=True)
     store_id = Column(Integer, ForeignKey("stores.id"), primary_key=True)
     rol_id = Column(Integer, ForeignKey("roles.id"), nullable=False)
+    active = Column(Boolean, default=True, server_default="true")
     store = relationship("Store", backref="workers")
     rol = relationship("Rol", backref="workers")

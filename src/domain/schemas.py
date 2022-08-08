@@ -63,7 +63,19 @@ class WorkerCreate(BaseModel):
     rol_id: int
 
 
-class WorkerData(BaseModel):
+class WorkerBasicData(BaseModel):
     user_id: int
-    store_id: int
     rol_id: int
+    rol_name: str
+    active: bool
+
+
+class WorkerData(WorkerBasicData):
+    store_id: int
+    store_name: str
+
+
+class WorkersList(BaseModel):
+    store_id: int
+    store_name: str
+    workers: List[WorkerBasicData]

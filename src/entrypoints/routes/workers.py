@@ -28,6 +28,36 @@ async def create_worker(new_worker: schemas.WorkerCreate, db: Session = Depends(
     response = schemas.WorkerData(
         user_id=worker.user_id,
         store_id=worker.store_id,
+        store_name=worker.store.name,
         rol_id=worker.rol_id,
+        rol_name=worker.rol.name,
+        active=worker.active,
     )
+    return response
+
+
+@router.get("", status_code=200, response_model=schemas.WorkersList)
+async def get_workers(page: int = 1, per_page: int = 10, store_id: int = 1, db: Session = Depends(get_db)):
+    worker_handler = WorkersHandler(db)
+    workers = await worker_handler.get_workers(page, per_page, store_id)
+    workers_list = [
+        schemas.WorkerBasicData(
+            user_id=worker.user_id,
+            rol_id=worker.rol_id,
+            rol_name=worker.rol.name,
+            active=worker.active,
+        )
+        for worker in workers
+    ]
+    try:
+        response = schemas.WorkersList(
+            store_id = store_id,
+            store_name=workers[0].store.name,
+            workers=workers_list
+        )
+    except IndexError:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="The store does not have workers",
+        )
     return response
