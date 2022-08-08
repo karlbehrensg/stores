@@ -38,3 +38,9 @@ class WorkersHandler:
             self.db.query(Worker).filter(Worker.store_id == store_id).offset(per_page * (page - 1)).limit(per_page).all()
         )
         return workers
+
+    async def get_worker(self, store_id: int, user_id: int):
+        worker = self.db.query(Worker).filter(Worker.store_id == store_id, Worker.user_id == user_id).first()
+        if not worker:
+            raise self.not_found_exception
+        return worker

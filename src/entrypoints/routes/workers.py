@@ -61,3 +61,18 @@ async def get_workers(page: int = 1, per_page: int = 10, store_id: int = 1, db: 
             detail="The store does not have workers",
         )
     return response
+
+
+@router.get("/{store_id}/{user_id}", status_code=200, response_model=schemas.WorkerData)
+async def get_worker(store_id: int, user_id: int, db: Session = Depends(get_db)):
+    worker_handler = WorkersHandler(db)
+    worker = await worker_handler.get_worker(store_id, user_id)
+    response = schemas.WorkerData(
+        user_id=worker.user_id,
+        store_id=worker.store_id,
+        store_name=worker.store.name,
+        rol_id=worker.rol_id,
+        rol_name=worker.rol.name,
+        active=worker.active,
+    )
+    return response
