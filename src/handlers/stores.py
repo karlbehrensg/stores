@@ -64,3 +64,23 @@ class StoresHandler:
         self.db.commit()
         self.db.refresh(store)
         return store
+
+    async def deactivate_store(self, store_id: int):
+        store = self.db.query(Store).get(store_id)
+        if store is None:
+            raise self.not_found_exception
+        store.active = False
+        self.db.add(store)
+        self.db.commit()
+        self.db.refresh(store)
+        return store
+    
+    async def activate_store(self, store_id: int):
+        store = self.db.query(Store).get(store_id)
+        if store is None:
+            raise self.not_found_exception
+        store.active = True
+        self.db.add(store)
+        self.db.commit()
+        self.db.refresh(store)
+        return store
