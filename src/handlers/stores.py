@@ -39,11 +39,28 @@ class StoresHandler:
             )
 
     async def get_stores(self, page: int, per_page: int):
-        stores = self.db.query(Store).offset(per_page * (page - 1)).limit(per_page).all()
+        stores = (
+            self.db.query(Store).offset(per_page * (page - 1)).limit(per_page).all()
+        )
         return stores
 
     async def get_store(self, store_id: int):
         store = self.db.query(Store).get(store_id)
         if store is None:
             raise self.not_found_exception
+        return store
+
+    async def update_store(self, store_id: int, data: schemas.StoreUpdate):
+        store = self.db.query(Store).get(store_id)
+        if store is None:
+            raise self.not_found_exception
+        store.name = data.name
+        store.legal_name = data.legal_name
+        store.address = data.address
+        store.zip_code = data.zip_code
+        store.email = data.email
+        store.phone = data.phone
+        self.db.add(store)
+        self.db.commit()
+        self.db.refresh(store)
         return store

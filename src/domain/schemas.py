@@ -46,3 +46,12 @@ class StoreData(BaseModel):
 
 class StoresList(BaseModel):
     stores: List[StoreData]
+
+
+class StoreUpdate(BaseModel):
+    name: Optional[str]
+    legal_name: Optional[str]
+    address: Optional[str]
+    zip_code: Optional[str]
+    email: Optional[EmailStr]
+    phone: Optional[str] = None

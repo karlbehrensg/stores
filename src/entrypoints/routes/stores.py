@@ -71,3 +71,24 @@ async def get_store(store_id: int, db: Session = Depends(get_db)):
         active=store.active,
     )
     return response
+
+
+@router.put("/{store_id}", status_code=200, response_model=schemas.StoreData)
+async def update_store(
+    store_id: int, data: schemas.StoreUpdate, db: Session = Depends(get_db)
+):
+    store_handler = StoresHandler(db)
+    store = await store_handler.update_store(store_id, data)
+    response = schemas.StoreData(
+        id=store.id,
+        country_id=store.country_id,
+        tax_id=store.tax_id,
+        name=store.name,
+        legal_name=store.legal_name,
+        address=store.address,
+        zip_code=store.zip_code,
+        email=store.email,
+        phone=store.phone,
+        active=store.active,
+    )
+    return response
