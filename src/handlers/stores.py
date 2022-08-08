@@ -8,6 +8,11 @@ from src.domain.models import Store
 
 
 class StoresHandler:
+    not_found_exception = HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Store not found",
+    )
+
     def __init__(self, db: Session) -> None:
         self.db = db
 
@@ -36,3 +41,9 @@ class StoresHandler:
     async def get_stores(self, page: int, per_page: int):
         stores = self.db.query(Store).offset(per_page * (page - 1)).limit(per_page).all()
         return stores
+
+    async def get_store(self, store_id: int):
+        store = self.db.query(Store).get(store_id)
+        if store is None:
+            raise self.not_found_exception
+        return store
