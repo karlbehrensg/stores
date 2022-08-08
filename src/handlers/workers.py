@@ -44,3 +44,10 @@ class WorkersHandler:
         if not worker:
             raise self.not_found_exception
         return worker
+
+    async def update_worker(self, store_id: int, user_id: int, worker: schemas.WorkerUpdate):
+        worker_to_update = await self.get_worker(store_id, user_id)
+        worker_to_update.rol_id = worker.rol_id
+        worker_to_update.active = worker.active
+        self.db.commit()
+        return worker_to_update

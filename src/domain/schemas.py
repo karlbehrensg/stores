@@ -79,3 +79,8 @@ class WorkersList(BaseModel):
     store_id: int
     store_name: str
     workers: List[WorkerBasicData]
+
+
+class WorkerUpdate(BaseModel):
+    rol_id: int
+    active: bool

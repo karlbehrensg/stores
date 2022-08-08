@@ -76,3 +76,18 @@ async def get_worker(store_id: int, user_id: int, db: Session = Depends(get_db))
         active=worker.active,
     )
     return response
+
+
+@router.put("/{store_id}/{user_id}", status_code=200, response_model=schemas.WorkerData)
+async def update_worker(store_id: int, user_id: int, worker: schemas.WorkerUpdate, db: Session = Depends(get_db)):
+    worker_handler = WorkersHandler(db)
+    worker = await worker_handler.update_worker(store_id, user_id, worker)
+    response = schemas.WorkerData(
+        user_id=worker.user_id,
+        store_id=worker.store_id,
+        store_name=worker.store.name,
+        rol_id=worker.rol_id,
+        rol_name=worker.rol.name,
+        active=worker.active,
+    )
+    return response
